@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>빈칸 채우기 예시</title>
+  <!-- style.css를 링크로 불러옵니다 -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>빈칸 채우기 예시</h1>
+  <p>다음 문장에서 빈칸에 알맞은 단어를 입력하세요:</p>
+  <div class="exercise">
+    <p>
+      한국의 수도는 
+      <input type="text" id="blank-1" data-answer="서울" placeholder="_____" size="5" /> 
+      입니다.
+    </p>
+    <p>
+      2022년 월드컵 개최 나라는 
+      <input type="text" id="blank-2" data-answer="카타르" placeholder="_____" size="5" /> 
+      입니다.
+    </p>
+  </div>
+
+  <button id="check-btn">정답 확인</button>
+  <button id="show-btn" style="display: none;">정답 보기</button>
+
+  <div id="result" style="margin-top: 20px; font-weight: bold;"></div>
+
+  <!-- JavaScript 파일을 아래에서 불러옵니다 -->
+  <script src="script.js"></script>
+</body>
+</html>
