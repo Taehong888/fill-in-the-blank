@@ -1,44 +1,54 @@
+// ────────────────────────────────────────────
+// 빈칸 채우기 동작 로직 (tistory용 fill-blank.js)
+// ────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", function() {
-  const checkBtn = document.getElementById("check-btn");
-  const showBtn = document.getElementById("show-btn");
-  const resultDiv = document.getElementById("result");
+  document.querySelectorAll(".fill-blank").forEach(function(container) {
+    const checkBtn = container.querySelector(".check-btn");
+    const showBtn = container.querySelector(".show-btn");
+    const resultDiv = container.querySelector(".result");
+    const inputs = container.querySelectorAll("input[data-answer]");
 
-  checkBtn.addEventListener("click", () => {
-    // exercise 안의 모든 input 요소를 가져옴
-    const inputs = document.querySelectorAll(".exercise input[type='text']");
-    let allCorrect = true;
-    inputs.forEach(input => {
-      const userAnswer = input.value.trim();
-      const correctAnswer = input.getAttribute("data-answer").trim();
-      if (userAnswer === "") {
-        allCorrect = false;
-        input.style.border = "2px solid orange"; // 빈칸인 경우
-      } else if (userAnswer === correctAnswer) {
-        input.style.border = "2px solid green"; // 정답
+    // “정답 확인” 버튼
+    checkBtn.addEventListener("click", function() {
+      let allCorrect = true;
+
+      inputs.forEach(function(input) {
+        const userAnswer = input.value.trim();
+        const correctAnswer = input.getAttribute("data-answer").trim();
+
+        if (userAnswer === "") {
+          allCorrect = false;
+          input.classList.remove("correct", "incorrect");
+          input.classList.add("blank");
+        } else if (userAnswer === correctAnswer) {
+          input.classList.remove("blank", "incorrect");
+          input.classList.add("correct");
+        } else {
+          allCorrect = false;
+          input.classList.remove("blank", "correct");
+          input.classList.add("incorrect");
+        }
+      });
+
+      if (allCorrect) {
+        resultDiv.textContent = "🎉 모든 답이 맞았습니다!";
+        showBtn.classList.add("hide");
       } else {
-        allCorrect = false;
-        input.style.border = "2px solid red"; // 오답
+        resultDiv.textContent = "일부 답이 틀렸거나 채워지지 않았습니다.";
+        showBtn.classList.remove("hide");
       }
     });
 
-    if (allCorrect) {
-      resultDiv.textContent = "🎉 모든 답이 맞았습니다!";
-      showBtn.style.display = "none";
-    } else {
-      resultDiv.textContent = "일부 답이 틀렸거나 채워지지 않았습니다.";
-      showBtn.style.display = "inline-block";
-    }
-  });
-
-  showBtn.addEventListener("click", () => {
-    // 오답 혹은 빈칸 입력란에 정답 자동으로 채워줌
-    const inputs = document.querySelectorAll(".exercise input[type='text']");
-    inputs.forEach(input => {
-      const correctAnswer = input.getAttribute("data-answer").trim();
-      input.value = correctAnswer;
-      input.style.border = "2px solid blue"; // 정답 표시
+    // “정답 보기” 버튼
+    showBtn.addEventListener("click", function() {
+      inputs.forEach(function(input) {
+        const correctAnswer = input.getAttribute("data-answer").trim();
+        input.value = correctAnswer;
+        input.classList.remove("blank", "incorrect");
+        input.classList.add("correct");
+      });
+      resultDiv.textContent = "정답을 모두 채워드렸습니다.";
+      showBtn.classList.add("hide");
     });
-    resultDiv.textContent = "정답을 모두 채워드렸습니다.";
-    showBtn.style.display = "none";
   });
 });
